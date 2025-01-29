@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}404 Nicht Gefunden{% endblock %}
+
+{% block content %}
+
+<div class="container text-center mt-5">
+    <h1 class="display-1 fw-bold text-danger">404</h1>
+    <p class="h4 mb-4">Ups! Diese Seite wurde nicht gefunden.</p>
+    <p class="lead">Die Seite, nach der du suchst, scheint nicht zu existieren. Vielleicht wurde sie verschoben oder der
+        Link war fehlerhaft.</p>
+
+    <a href="/" class="btn btn-primary btn-lg mt-3">
+        Zurück zur Startseite
+    </a>
+    <p class="text-body-secondary mt-3">{{ msg }}</p>
+</div>
+
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}403 Zugriff verweigert{% endblock %}
+
+{% block content %}
+
+<div class="container text-center mt-5">
+    <h1 class="display-1 fw-bold text-danger">403</h1>
+    <p class="h4 mb-4">Zugriff verweigert</p>
+    <p class="lead">Entschuldigung, du hast keine Berechtigung, diese Seite zu sehen.</p>
+
+    <a href="/" class="btn btn-primary btn-lg mt-3">
+        Zurück zur Startseite
+    </a>
+    <p class="text-body-secondary mt-3">{{ msg }}</p>
+</div>
+
+{% endblock %}

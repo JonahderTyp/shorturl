@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}405 Methode nicht erlaubt{% endblock %}
+
+{% block content %}
+
+<div class="container text-center mt-5">
+    <h1 class="display-1 fw-bold text-warning">405</h1>
+    <p class="h4 mb-4">Methode nicht erlaubt</p>
+    <p class="lead">Die von Ihnen angeforderte Methode wird auf dieser Seite nicht unterstützt.</p>
+
+    <a href="/" class="btn btn-primary btn-lg mt-3">
+        Zurück zur Startseite
+    </a>
+    <p class="text-body-secondary mt-3">{{ msg }}</p>
+</div>
+
+{% endblock %}

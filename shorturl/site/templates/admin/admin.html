@@ -1,0 +1,31 @@
+{% extends 'admin/base.html' %}
+
+
+{% block content %}
+
+<div class="row row-cols-1 row-cols-md-4 g-3">
+    {% for user in users %}
+    <div class="col">
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">
+                    {{ user.username }}
+                </h5>
+                <p class="card-text">
+                    {{ user.type.name }}
+                </p>
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <a href="{{ url_for('.edit', id=user.username) }}" class="btn btn-primary">Edit</a>
+                    </div>
+                    <div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

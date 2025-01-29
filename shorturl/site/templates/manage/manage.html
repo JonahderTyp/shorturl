@@ -1,0 +1,52 @@
+{% extends 'manage/base.html' %}
+
+
+{% block content %}
+{% if shorturls|length == 0 %}
+<div class="col">
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title">No Short URLs</h5>
+            <p class="card-text">
+                You have not created any short URLs yet.
+            </p>
+            <a href="{{ url_for('.new') }}" class="btn btn-primary">Create One</a>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<div class="row row-cols-1 row-cols-md-4 g-3">
+    {% for shorturl in shorturls %}
+    <div class="col">
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title {% if shorturl.active %} text-success {% else %} text-danger {% endif %}">
+                    {{shorturl.wholeurl}}
+                </h5>
+                <a target="_blank" href="{{shorturl.endpoint}}">{{shorturl.endpoint}}</a>
+                <p class="card-text overflow-auto" style="height: 40px">
+                    {{shorturl.description}}
+                </p>
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <a href="{{ url_for('.edit', id=shorturl.id) }}" class="btn btn-primary">Edit</a>
+                    </div>
+                    <div>
+                        <!-- 
+                        <a class="btn btn-secondary" href="" target="_blank">
+                            <i class="bi bi-globe"></i>
+                        </a> -->
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    {% endfor %}
+</div>
+
+
+{% endblock %}

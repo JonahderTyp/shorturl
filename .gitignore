@@ -1,3 +1,10 @@
+### Flask ###
+instance/*
+!instance/.gitkeep
+.webassets-cache
+.env
+!instance/config.example.cfg
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -62,7 +69,6 @@ db.sqlite3
 db.sqlite3-journal
 
 # Flask stuff:
-instance/
 .webassets-cache
 
 # Scrapy stuff:

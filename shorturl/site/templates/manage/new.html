@@ -1,0 +1,34 @@
+{% extends 'manage/base.html' %}
+
+
+{% block content %}
+<!-- Create a new url form using the wtform-->
+
+<form method="POST">
+    {{ form.hidden_tag() }}
+    <div class="form-group my-3">
+        {{ form.short.label(class="form-control-label") }}
+        {{ form.short(class="form-control" + (' is-invalid' if form.short.errors else '')) }}
+        {% if form.short.errors %}
+        <div class="invalid-feedback">
+            {{ form.short.errors[0] }}
+        </div>
+        {% endif %}
+    </div>
+    <div class="form-group my-3">
+        {{ form.endpoint.label(class="form-control-label") }}
+        {{ form.endpoint(class="form-control" + (' is-invalid' if form.endpoint.errors else '')) }}
+        {% if form.endpoint.errors %}
+        <div class="invalid-feedback">
+            {{ form.endpoint.errors[0] }}
+        </div>
+        {% endif %}
+    </div>
+    <div class="form-group my-3">
+        {{ form.description.label(class="form-control-label") }}
+        {{ form.description(class="form-control") }}
+    </div>
+    {{ form.submit(class="btn btn-primary my-3") }}
+</form>
+
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}Login - {{ super() }} {% endblock %}
+
+{% block navbar %}
+{% endblock %}
+
+
+{% block content %}
+<div class="container mt-5 d-flex justify-content-center align-items-center">
+    <div class="card p-4">
+        <div class="card-body text-center">
+            <h1 class="mb-4">Shorturl</h1>
+            <img src="{{ url_for('static', filename='shorturl.png') }}" class="img-fluid mb-4" alt="Login Image"
+                style="max-height: 400px;">
+
+            <form method="POST">
+                {{ form.hidden_tag() }}
+                {{ form.csrf_token }}
+                <div class="row gy-2 overflow-hidden">
+                    <div class="col-12">
+                        {{ form.username(class="form-control", placeholder="Benutzername") }}
+                        {% if form.username.errors %}
+                        <div class="text-danger">
+                            {% for error in form.username.errors %}
+                            <span>{{ error }}</span><br>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="col-12">
+                        {{ form.password(class="form-control", placeholder="Passwort") }}
+                        {% if form.password.errors %}
+                        <div class="alert alert-danger mt-3" role="alert">
+                            {% for error in form.password.errors %}
+                            <span>{{ error }}</span><br>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="col-12">
+                        <div class="d-grid my-3">
+                            {{ form.submit(class="btn btn-primary") }}
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends 'manage/base.html' %}
+
+
+{% block content %}
+<!-- Create a new url form using the wtform-->
+
+<h1>
+    Editing: {{ shorturl.wholeurl }}
+</h1>
+
+<form method="POST">
+    {{ form.hidden_tag() }}
+    <div class="form-group my-3">
+        {{ form.endpoint.label(class="form-control-label") }}
+        {{ form.endpoint(class="form-control" + (' is-invalid' if form.endpoint.errors else '')) }}
+        {% if form.endpoint.errors %}
+        <div class="invalid-feedback">
+            {{ form.endpoint.errors[0] }}
+        </div>
+        {% endif %}
+    </div>
+    <div class="form-group my-3">
+        {{ form.description.label(class="form-control-label") }}
+        {{ form.description(class="form-control") }}
+    </div>
+    <div>
+        <a href="{{ url_for('.manage')}}" class="btn btn-secondary my-3"> Back </a>
+
+        {{ form.submit(class="btn btn-primary my-3") }}
+
+        <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+            Löschen
+        </button>
+    </div>
+
+
+
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="deleteModalLabel">Löschen</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Bist du Sicher das du diese Aufgabe löschen möchtest?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    {{ form.delete(class="btn btn-danger") }}
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+{% endblock %}

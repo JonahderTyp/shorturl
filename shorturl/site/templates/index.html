@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}Index - {{ super() }}{% endblock %}
+
+{% block navbar_right %}
+<div class="d-flex">
+    <a href="{{ url_for('site.login') }}" class="btn btn-outline-primary">Login</a>
+    <a href="{{ url_for('site.register') }}" class="btn btn-outline-primary ms-2">Register</a>
+</div>
+{% endblock %}
+
+{% block content %}
+<div>
+    <h1>URL Shortender</h1>
+
+
+
+
+</div>
+{% endblock %}
