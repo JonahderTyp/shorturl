@@ -68,7 +68,7 @@ def edit(id: str):
     if form.validate_on_submit():
         if form.delete.data:
             shorturl.delete()
-            return redirect(url_for(".index"))
+            return redirect(url_for(".manage"))
         shorturl.endpoint = form.endpoint.data
         shorturl.description = form.description.data
         shorturl.save()
