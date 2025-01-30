@@ -1,6 +1,5 @@
 import logging
 import os
-from pathlib import Path
 
 from flask import Flask
 from flask_login import LoginManager
@@ -12,29 +11,37 @@ from .database.seed import seed_database
 def create_app():
     logging.basicConfig(level=logging.INFO)
     logging.info("Creating App")
-    print("Creating App")
 
-    INSTANCE_PATH = os.path.abspath(os.path.join(
-        os.path.abspath(__path__[0]), "../instance"))
+    app = Flask(__name__)
 
-    logging.info(f"Instance Path: {INSTANCE_PATH}")
+    # Load configuration from environment variables
+    app.config["SECRET_KEY"] = os.environ.get(
+        "SECRET_KEY", "default_secret_key")
+    app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(
+        "DATABASE_URL", "sqlite:///../instance/app.db"
+    )
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = os.environ.get(
+        "SQLALCHEMY_TRACK_MODIFICATIONS", "False"
+    ).lower() in ["true", "1"]
+    app.config["DEBUG"] = os.environ.get(
+        "FLASK_DEBUG", "False").lower() in ["true", "1"]
+    app.config["WERKZEUGLOG"] = os.environ.get(
+        "WERKZEUGLOG", "False").lower() in ["true", "1"]
 
-    app = Flask(__name__, instance_path=INSTANCE_PATH)
+    print("\n\n\n")
+    print(f"SQLALCHEMY_DATABASE_URI: \
+        {app.config['SQLALCHEMY_DATABASE_URI']}")
+    print(f"SQLALCHEMY_TRACK_MODIFICATIONS: \
+        {app.config['SQLALCHEMY_TRACK_MODIFICATIONS']}")
+    print("\n\n\n")
 
-    CONFIG_PATH = Path(INSTANCE_PATH) / "config.cfg"
+    logging.info(f"App Configuration: {app.config}")
 
-    if CONFIG_PATH.is_file():
-        app.config.from_pyfile(str(CONFIG_PATH))
-        app.logger.info(f"Loaded Config from {CONFIG_PATH}")
-        if app.config.get("DEBUG", False):
-            app.logger.debug(f"Config:{str(app.config)}")
-    else:
-        app.logger.warning(f"No Config File Found at {CONFIG_PATH}")
-
-    print(app.config)
-    if not (app.config.get("WERKZEUGLOG", False) or app.config.get("DEBUG", False)):
+    # Set Werkzeug logging level
+    if not (app.config["WERKZEUGLOG"] or app.config["DEBUG"]):
         logging.getLogger("werkzeug").setLevel(logging.WARNING)
 
+    # Initialize database
     from .database import db
     db.init_app(app)
 
@@ -50,7 +57,7 @@ def create_app():
     with app.app_context():
         db.create_all()
 
-        # Check if every Table is empty
+        # Seed database if it's empty
         NEW_DB = all(db.session.query(table).first()
                      is None for table in db.metadata.sorted_tables)
 
@@ -58,10 +65,10 @@ def create_app():
             app.logger.info("All tables are empty. Seeding database...")
             seed_database()
 
+    # Register Blueprints
     from .site import site
-
     app.register_blueprint(site)
 
-    app.logger.debug(app.config)
-
+    print("Returning app")
+    logging.info("App created successfully")
     return app
