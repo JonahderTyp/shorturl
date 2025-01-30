@@ -222,7 +222,7 @@ class ShortUrl(BaseTable):
 
     @property
     def wholeurl(self) -> str:
-        return f"{current_app.config.get('BASE_URL','NO_URL')}/{self.id}"
+        return f"{current_app.config.get('BASE_URL', 'NO_URL')}/{self.id}"
 
     def is_deletable(self) -> bool:
         return True
@@ -247,8 +247,8 @@ class ShortUrl(BaseTable):
             raise ElementAlreadyExists(
                 f"ShortUrl mit der ID \"{id}\" existiert bereits")
 
-        if len(id) < 2:
-            raise ValueError("ID muss mindestens 2 Zeichen lang sein")
+        if len(id) < 1:
+            raise ValueError("ID muss mindestens 1 Zeichen lang sein")
 
         if not bool(re.fullmatch(r"[a-zA-Z0-9\-._~]+", id)):
             raise ValueError(
