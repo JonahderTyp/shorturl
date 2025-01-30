@@ -33,6 +33,11 @@
         </button>
     </div>
 
+    <div>
+        <!-- QR Code Container with data-url attribute -->
+        <div class="qrcode" data-url="{{ shorturl.wholeurl }}"></div>
+    </div>
+
 
 
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
@@ -53,5 +58,23 @@
         </div>
     </div>
 </form>
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Select all elements with the class "qrcode"
+        document.querySelectorAll(".qrcode").forEach(function (element) {
+            let url = element.getAttribute("data-url"); // Get the URL from data attribute
+            new QRCode(element, {
+                text: url,   // Encode the URL
+                width: 128,  // QR Code width
+                height: 128, // QR Code height
+            });
+        });
+    });
+</script>
 
 {% endblock %}
