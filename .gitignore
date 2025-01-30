@@ -1,9 +1,7 @@
 ### Flask ###
-instance/*
-!instance/.gitkeep
+instance/
 .webassets-cache
 .env
-!instance/config.example.cfg
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
