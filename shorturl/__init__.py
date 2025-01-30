@@ -27,6 +27,8 @@ def create_app():
         "FLASK_DEBUG", "False").lower() in ["true", "1"]
     app.config["WERKZEUGLOG"] = os.environ.get(
         "WERKZEUGLOG", "False").lower() in ["true", "1"]
+    app.config["BASE_URL"] = os.environ.get(
+        "BASE_URL", "http://localhost:5000")
 
     print("\n\n\n")
     print(f"SQLALCHEMY_DATABASE_URI: \
