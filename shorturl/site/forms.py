@@ -52,12 +52,12 @@ class LoginForm(FlaskForm):
 
 
 class ChangePasswordForm(FlaskForm):
-    new_password = PasswordField('New Password', validators=[DataRequired()])
-    confirm_password = PasswordField('Confirm New Password',
+    new_password = PasswordField('Neues Passwort', validators=[DataRequired()])
+    confirm_password = PasswordField('Passwort Bestätigen',
                                      validators=[
                                          DataRequired(),
                                          EqualTo(
-                                             'new_password', message='Passwords must match.')
+                                             'new_password', message='Passwörter müssen übereinstimmen')
                                      ])
     submit = SubmitField('Passwort Ändern')
 
@@ -67,26 +67,26 @@ class AdminNewUserForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     type = SelectField('Type', choices=[
                        ('1', 'Admin'), ('2', 'Editor')], validators=[DataRequired()])
-    submit = SubmitField('Create User')
+    submit = SubmitField('Nutzer Erstellen')
 
 
 class AdminEditUserForm(FlaskForm):
     password = StringField('Password', validators=[DataRequired()])
-    delete = SubmitField("Delete User", name="delete")
-    submit = SubmitField('Save Changes')
+    delete = SubmitField("Benutzer Löschen", name="delete")
+    submit = SubmitField('Speichern')
 
 
 class NewShortUrlForm(FlaskForm):
     short = StringField('Short', validators=[DataRequired(), strip_whitespace])
-    description = StringField('Description', validators=[Optional()])
+    description = StringField('Beschreibung', validators=[Optional()])
     endpoint = StringField('Endpoint', validators=[
                            DataRequired(), validate_and_fix_url])
-    submit = SubmitField('Create ShortUrl')
+    submit = SubmitField('Neue URL erstellen')
 
 
 class EditShortUrlForm(FlaskForm):
-    description = StringField('Description', validators=[Optional()])
+    description = StringField('Beschreibung', validators=[Optional()])
     endpoint = StringField('Endpoint', validators=[
                            DataRequired(), validate_and_fix_url])
-    delete = SubmitField("Delete Task", name="delete")
-    submit = SubmitField('Save Changes')
+    delete = SubmitField("Löschen", name="delete")
+    submit = SubmitField('Änderungen Speichern')
