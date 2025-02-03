@@ -31,7 +31,6 @@ def manage():
 
     shorturls = [u.to_dict() for u in usr.urls]
 
-    print(shorturls)
     return render_template("manage/manage.html", shorturls=shorturls)
 
 
