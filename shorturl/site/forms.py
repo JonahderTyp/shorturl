@@ -1,60 +1,13 @@
 import re
 
 from flask_wtf import FlaskForm
-from wtforms.fields import PasswordField, SelectField, StringField, SubmitField
+from wtforms.fields import (Field, PasswordField, SelectField, StringField,
+                            SubmitField)
 from wtforms.validators import (URL, DataRequired, EqualTo, Length, Optional,
                                 ValidationError)
 
 
-class LoginForm(FlaskForm):
-    username = StringField('Username', validators=[
-                           DataRequired(), Length(min=2, max=20)])
-    password = PasswordField('Password', validators=[DataRequired()])
-    submit = SubmitField('Login')
-
-    # def validate_password(self, password):
-    #     if password.data != 'correctpassword':
-    #         raise ValidationError('Falsches Passwort oder Benutzername')
-
-
-class ChangePasswordForm(FlaskForm):
-    new_password = PasswordField('New Password', validators=[DataRequired()])
-    confirm_password = PasswordField('Confirm New Password',
-                                     validators=[
-                                         DataRequired(),
-                                         EqualTo(
-                                             'new_password', message='Passwords must match.')
-                                     ])
-    submit = SubmitField('Passwort Ändern')
-
-
-class AdminChangePasswordForm(FlaskForm):
-    password = PasswordField('Password', validators=[DataRequired()])
-    passsubmit = SubmitField('Change Password')
-
-
-class AdminChangeTypeForm(FlaskForm):
-    type = SelectField('Type', choices=[
-                       ('1', 'Admin'), ('2', 'Editor'), ('3', 'Viewer')], validators=[DataRequired()])
-    typesubmit = SubmitField('Change Type')
-
-
-class AdminChangeActiveForm(FlaskForm):
-    active = SelectField('Active', choices=[
-        ('1', 'Active'), ('0', 'Inactive')], validators=[DataRequired()])
-    actsubmit = SubmitField('Change Active')
-
-
-class AdminNewUserForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired()])
-    name = StringField('Name', validators=[DataRequired()])
-    password = PasswordField('Password', validators=[DataRequired()])
-    type = SelectField('Type', choices=[
-                       ('1', 'Admin'), ('2', 'Editor'), ('3', 'Viewer')], validators=[DataRequired()])
-    submit = SubmitField('Create User')
-
-
-def validate_and_fix_url(form, field):
+def validate_and_fix_url(_, field: Field):
     url = field.data.strip()
 
     # Regex to match a full URL (with http:// or https://)
@@ -82,9 +35,45 @@ def validate_and_fix_url(form, field):
         field.data = f"https://{url}"
 
 
-def strip_whitespace(form, field):
+def strip_whitespace(_, field: Field):
     """Custom validator to strip leading/trailing whitespace from input."""
-    field.data = field.data.strip()
+    field.data = str(field.data).strip()
+
+
+class LoginForm(FlaskForm):
+    username = StringField('Username', validators=[
+                           DataRequired()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    submit = SubmitField('Login')
+
+    # def validate_password(self, password):
+    #     if password.data != 'correctpassword':
+    #         raise ValidationError('Falsches Passwort oder Benutzername')
+
+
+class ChangePasswordForm(FlaskForm):
+    new_password = PasswordField('New Password', validators=[DataRequired()])
+    confirm_password = PasswordField('Confirm New Password',
+                                     validators=[
+                                         DataRequired(),
+                                         EqualTo(
+                                             'new_password', message='Passwords must match.')
+                                     ])
+    submit = SubmitField('Passwort Ändern')
+
+
+class AdminNewUserForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    type = SelectField('Type', choices=[
+                       ('1', 'Admin'), ('2', 'Editor')], validators=[DataRequired()])
+    submit = SubmitField('Create User')
+
+
+class AdminEditUserForm(FlaskForm):
+    password = StringField('Password', validators=[DataRequired()])
+    delete = SubmitField("Delete User", name="delete")
+    submit = SubmitField('Save Changes')
 
 
 class NewShortUrlForm(FlaskForm):
@@ -99,17 +88,5 @@ class EditShortUrlForm(FlaskForm):
     description = StringField('Description', validators=[Optional()])
     endpoint = StringField('Endpoint', validators=[
                            DataRequired(), validate_and_fix_url])
-    delete = SubmitField("Delete Task", name="delete")
-    submit = SubmitField('Save Changes')
-
-
-class NewUserForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired()])
-    password = PasswordField('Password', validators=[DataRequired()])
-    submit = SubmitField('Create User')
-
-
-class EditUserForm(FlaskForm):
-    password = StringField('Password', validators=[DataRequired()])
     delete = SubmitField("Delete Task", name="delete")
     submit = SubmitField('Save Changes')
