@@ -6,20 +6,25 @@
 {% block navbar_left %}
 
 <li class="nav-item">
-    <a class="nav-link" href="{{url_for('.manage')}}">Overview</a>
+    <a class="nav-link" href="{{url_for('.manage')}}">Deine URLs</a>
 </li>
 
 <li class="nav-item">
-    <a class="nav-link" href="{{url_for('.new')}}">New</a>
+    <a class="nav-link" href="{{url_for('.new')}}">Neue URL</a>
 </li>
 
 <li class="nav-item">
-    <a class="nav-link" href="{{url_for('site.change_password')}}">Change Password</a>
+    <a class="nav-link" href="{{url_for('site.change_password')}}">Passwort Ändern</a>
 </li>
+
+{% if cuser.role == "admin" %}
+<li class="nav-item">
+    <a class="nav-link" href="{{url_for('site.admin.admin')}}">Admin</a>
+</li>
+{% endif %}
+
 {% endblock %}
 
 {% block navbar_right %}
-<div class="d-flex">
-    <a href="{{ url_for('site.logout') }}" class="btn btn-outline-danger">Logout</a>
-</div>
+<a href="{{ url_for('site.logout') }}" class="btn btn-outline-danger">Logout</a>
 {% endblock %}

@@ -1,9 +1,6 @@
 {% extends 'manage/base.html' %}
 
-
 {% block content %}
-<!-- Create a new url form using the wtform-->
-
 <h1>
     Editing: {{ shorturl.wholeurl }}
 </h1>
@@ -24,8 +21,7 @@
         {{ form.description(class="form-control") }}
     </div>
     <div>
-        <a href="{{ url_for('.manage')}}" class="btn btn-secondary my-3"> Back </a>
-
+        <a href="{{ url_for('.manage')}}" class="btn btn-secondary my-3"> Zurück </a>
         {{ form.submit(class="btn btn-primary my-3") }}
 
         <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
@@ -33,12 +29,19 @@
         </button>
     </div>
 
-    <div>
-        <!-- QR Code Container with data-url attribute -->
-        <div class="qrcode" data-url="{{ shorturl.wholeurl }}"></div>
+    <!-- QR Codes with different error correction levels -->
+    <div class="row">
+        {% for level in ['L', 'M', 'Q', 'H'] %}
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Error Correction: {{ level }}</h5>
+                    <div class="qrcode mx-auto" data-url="{{ shorturl.wholeurl }}" data-ecc="{{ level }}"></div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
     </div>
-
-
 
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -48,7 +51,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    Bist du Sicher das du diese Aufgabe löschen möchtest?
+                    Bist du Sicher das du diesen Link löschen möchtest?
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -59,20 +62,28 @@
     </div>
 </form>
 
-
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        // Select all elements with the class "qrcode"
         document.querySelectorAll(".qrcode").forEach(function (element) {
-            let url = element.getAttribute("data-url"); // Get the URL from data attribute
+            let url = element.getAttribute("data-url");
+            let ecc = element.getAttribute("data-ecc");
+
+            let correctionLevels = {
+                'L': QRCode.CorrectLevel.L,
+                'M': QRCode.CorrectLevel.M,
+                'Q': QRCode.CorrectLevel.Q,
+                'H': QRCode.CorrectLevel.H,
+            };
+
+
+            console.log(url, ecc);
             new QRCode(element, {
-                text: url,   // Encode the URL
-                width: 128,  // QR Code width
-                height: 128, // QR Code height
-                correctLevel: QRCode.CorrectLevel.L // Error correction level
+                text: url,
+                width: 128,
+                height: 128,
+                correctLevel: correctionLevels[ecc] || QRCode.CorrectLevel.M
             });
         });
     });

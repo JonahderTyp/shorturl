@@ -15,20 +15,26 @@ def create_app():
     app = Flask(__name__)
 
     # Load configuration from environment variables
+    app.config["BASE_URL"] = os.environ.get(
+        "BASE_URL", "NO_BASE_URL_PROVIDED")
+
+    # Security
     app.config["SECRET_KEY"] = os.environ.get(
         "SECRET_KEY", "default_secret_key")
+
+    # Database
     app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(
         "DATABASE_URL", "sqlite:///../instance/app.db"
     )
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = os.environ.get(
         "SQLALCHEMY_TRACK_MODIFICATIONS", "False"
     ).lower() in ["true", "1"]
+
+    # Debugging
     app.config["DEBUG"] = os.environ.get(
         "FLASK_DEBUG", "False").lower() in ["true", "1"]
     app.config["WERKZEUGLOG"] = os.environ.get(
         "WERKZEUGLOG", "False").lower() in ["true", "1"]
-    app.config["BASE_URL"] = os.environ.get(
-        "BASE_URL", "http://localhost:5000")
 
     print("\n\n\n")
     print(f"SQLALCHEMY_DATABASE_URI: \

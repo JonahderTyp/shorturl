@@ -5,7 +5,7 @@
 <!-- Edit a user using the wtform-->
 
 <h1>
-    Editing: {{ user.username }}
+    {{ user.username }}
 </h1>
 
 <form method="POST">
@@ -23,7 +23,7 @@
 
 
     <div>
-        <a href="{{ url_for('.admin')}}" class="btn btn-secondary my-3"> Back </a>
+        <a href="{{ url_for('.admin')}}" class="btn btn-secondary my-3"> Zurück </a>
 
         {{ form.submit(class="btn btn-primary my-3") }}
 

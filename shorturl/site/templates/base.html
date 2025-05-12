@@ -51,8 +51,15 @@
                     {% block navbar_left %}
                     {% endblock %}
                 </ul>
-                {% block navbar_right %}
-                {% endblock %}
+
+                <div class="d-flex">
+                    {% block navbar_right %}
+                    {% endblock %}
+
+                    {% if cuser.is_authenticated %}
+                    <span class="navbar-text ms-4">{{ cuser.name }}</span>
+                    {% endif %}
+                </div>
             </div>
         </div>
     </nav>
